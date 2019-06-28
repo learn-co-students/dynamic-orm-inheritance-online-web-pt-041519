@@ -5,11 +5,46 @@ require_relative "../lib/interactive_record.rb"
 require_relative "../lib/song.rb"
 require_relative "../config/environment.rb"
 
-song = Song.new(name: "Hello", album: "25")
-puts "song name: " + song.name
-puts "song album: " + song.album
-song.save
+# song = Song.new(name: "Hello", album: "25")
+# puts "song name: " + song.name
+# puts "song album: " + song.album
+# song.save
 
-puts Song.find_by_name("Hello")
+# puts Song.find_by_name("Hello")
 
 # DB[:conn].execute("SELECT * FROM songs")
+
+
+puts "+++ New Song! +++"
+song = Song.new(name: "Hello", album: "25")
+puts "- Name: " + song.name
+puts "- Album: " + song.album
+song.save
+
+puts "\nAll songs in database: #{DB[:conn].execute("SELECT * FROM songs")}"
+puts "------------------\n\n"
+
+# Show table and column names
+puts "Database structure"
+puts "- Table name: #{Song.table_name}"
+puts "- Column names: #{Song.column_names.inspect}"
+puts "------------------\n\n"
+
+# Show object SQL info
+puts "Song-specific database information"
+puts "-'Hello' column names: #{song.col_names_for_insert}"
+puts "-'Hello' values: #{song.values_for_insert}"
+puts "------------------\n\n"
+
+# Insert and find new song
+puts "Add 'I Love Me' to database."
+song2 = Song.new(name: "I Love Me", album: "Thank You")
+song2.save
+puts "All songs in database: #{DB[:conn].execute("SELECT * FROM songs")}"
+puts "------------------\n\n"
+
+puts "Find 'I Love Me':"
+# puts Song.find_by_name("I Love Me")
+sql = "SELECT * FROM songs WHERE name = 'I Love Me'"
+puts DB[:conn].execute(sql)
+
