@@ -1,4 +1,4 @@
-# Dynamic ORM with Inheritance
+bun# Dynamic ORM with Inheritance
 
 ## Objectives
 
